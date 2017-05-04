@@ -1,0 +1,23 @@
+{
+  "name": "bookmark-app",
+  "version": "1.0.0",
+  "description": "Bookmark desktop app written in Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron ."
+  },
+  "repository": "https://github.com/KoenCa/bookmarking-app",
+  "keywords": [
+    "Electron",
+    "bookmark",
+    "desktop",
+    "app"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "~1.6.2",
+    "electron-reload": "^1.1.0"
+  }
+}

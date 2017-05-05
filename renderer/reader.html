@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Readit</title>
+
+  <link rel="stylesheet" href="../bower_components/bulma/css/bulma.css">
+  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="main.css">
+
+  <style>
+    html, body, webview {
+        height: 100%;
+        width: 100%;
+    }
+  </style>
+
+</head>
+<body>
+
+    <section id="loader" class="hero is-fullheight has-text-centered">
+      <div class="hero-body">
+        <div class="container">
+
+          <div class="busy">
+            <h1 class="title">
+              <span class="icon is-large">
+                <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+              </span>
+            </h1>
+          </div>
+
+          <div class="failed is-hidden">
+            <h1 class="title">Failed to Load</h1>
+            <h2 class="subtitle">Please check your Network Connection</h2>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <webview src="about:blank"></webview>
+
+    <script>
+
+        // jQuery
+        $ = require('jquery')
+
+        // query-string module
+        const queryString = require('query-string')
+
+        // Parse query string
+        const queryParams = queryString.parse(location.search)
+
+        // Get query string 'url'
+        let url = decodeURIComponent(queryParams.url)
+
+        // Load remote content once webview is ready
+        $('webview').one('dom-ready', (e) => {
+
+            //Load item in content url into webview
+            e.currentTarget.loadURL(url)
+
+        }).one('did-finish-load', () => { // specific to the loadURL method so it won't fire when about:blank loads
+
+            // Hide loader to reveal webview
+            $('#loader').fadeOut(100)
+
+            //Handle failed load
+        }).on('did-fail-load', () => {
+            $('#loader .busy').addClass('is-hidden')
+            $('#loader').fadeIn(100)
+            $('#loader .failed').removeClass('is-hidden')
+        })
+
+    </script>
+</body>
+</html>

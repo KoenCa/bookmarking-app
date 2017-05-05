@@ -40,11 +40,14 @@ exports.openItem = () => {
     // get selected item
     let targetItem = $('.read-item.is-active')
 
-    // get item's content url
-    let contentUrl = targetItem.data('url')
+    // get item's content url (encoded)
+    let contentURL = encodeURIComponent(targetItem.data('url'))
 
-    console.log('opening item')
-    console.log(contentUrl)    
+    // Reader window URL + url of the items website
+    let readerWinURL = `file://${__dirname}/reader.html?url=${contentURL}`
+
+    // open item in new proxy BrowserWindow
+    let readerWin = window.open(readerWinURL, targetItem.data('title'))  
 }
 
 // Add new item
@@ -54,7 +57,7 @@ exports.addItem = (item) => {
     $('#no-items').hide()
 
     // New item html
-    let itemHTML = `<a class="panel-block read-item" data-url="${item.url}">
+    let itemHTML = `<a class="panel-block read-item" data-url="${item.url}" data-title="${item.title}">
                         <figure class="image has-shadow is-64x64 thumb">
                             <img src="${item.screenshot}">
                         </figure>

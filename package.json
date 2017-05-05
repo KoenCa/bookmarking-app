@@ -1,5 +1,5 @@
 {
-  "name": "bookmark-app",
+  "name": "Readit",
   "version": "1.0.0",
   "description": "Bookmark desktop app written in Electron",
   "main": "main.js",

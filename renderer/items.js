@@ -33,7 +33,12 @@ exports.changeItem = (direction) => {
 
 // Window function because the proxy window needs to access it
 // Delete item by index
-window.deleteItem = (i) => {
+window.deleteItem = (i = false) => {
+
+    // Set i to active item if not passed as argument
+    if (i === false) {
+        i = $('.read-item.is-active').index() - 1
+    }
 
     // Remove item from DOM
     $('.read-item').eq(i).remove()
@@ -63,8 +68,21 @@ window.deleteItem = (i) => {
 
 }
 
+// open item in default browser
+window.openInBrowser = () => {
+
+    // Only if items exist
+    if ( !this.toreadItems.length ) return
+
+    // get selected item
+    let targetItem = $('.read-item.is-active')
+
+    // open in browser
+    require('electron').shell.openExternal(targetItem.data('url'))
+}
+
 // Open item for reading
-exports.openItem = () => {
+window.openItem = () => {
 
     // only if items have been added
     if (!this.toreadItems.length) return
@@ -109,5 +127,5 @@ exports.addItem = (item) => {
     $('.read-item')
         .off('click, dblclick')
         .on('click', this.selectItem)
-        .on('dblclick', this.openItem)
+        .on('dblclick', window.openItem)
 }

@@ -31,6 +31,38 @@ exports.changeItem = (direction) => {
 
 }
 
+// Window function because the proxy window needs to access it
+// Delete item by index
+window.deleteItem = (i) => {
+
+    // Remove item from DOM
+    $('.read-item').eq(i).remove()
+
+    // Remove from toreadItems array
+    // If false than the item will be filtered
+    this.toreadItems = this.toreadItems.filter((item, index) => {
+        return index !== i
+    })
+
+    // Update storage
+    this.saveItems()
+
+    // Select prev item or none if list empty
+    if (this.toreadItems.length) {
+        
+        // if first item was deleted, select new first item in list, else previous item
+        let newIndex = (i === 0) ? 0 : i - 1
+
+        // Assign active class to new index
+        $('.read-item').eq(newIndex).addClass('is-active')
+
+    // Else show 'no items' message
+    } else {
+        $('#no-items').show()
+    }
+
+}
+
 // Open item for reading
 exports.openItem = () => {
 
@@ -43,8 +75,12 @@ exports.openItem = () => {
     // get item's content url (encoded)
     let contentURL = encodeURIComponent(targetItem.data('url'))
 
+    // get item index to pass to proxy window
+    // index of item in toreadItems array
+    let itemIndex = targetItem.index() - 1
+
     // Reader window URL + url of the items website
-    let readerWinURL = `file://${__dirname}/reader.html?url=${contentURL}`
+    let readerWinURL = `file://${__dirname}/reader.html?url=${contentURL}&itemIndex=${itemIndex}`
 
     // open item in new proxy BrowserWindow
     let readerWin = window.open(readerWinURL, targetItem.data('title'))  

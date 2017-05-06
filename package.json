@@ -13,7 +13,7 @@
     "desktop",
     "app"
   ],
-  "author": "GitHub",
+  "author": "Koen Castermans",
   "license": "CC0-1.0",
   "devDependencies": {
     "devtron": "^1.4.0",
